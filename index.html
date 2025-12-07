@@ -107,7 +107,21 @@
 
 <script>
     // ================================
-    // ★ あなたの WAV ビートに書き換え済み
+    // ★ スマホ対応の強制ダウンロード関数
+    // ================================
+    function forceDownload(url, fileName) {
+        fetch(url)
+            .then(res => res.blob())
+            .then(blob => {
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+            });
+    }
+
+    // ================================
+    // ★ あなたの WAV ビート
     // ================================
     const beats = [
         { title: "BoomBap Beat", file: "beats/2025-11-24_1.wav" },
@@ -127,10 +141,10 @@
             <div style="display:flex; justify-content:center; gap:20px; margin-top:15px;">
                 <button class="play-btn" id="btn-${index}">▶ Play</button>
 
-                <!-- ★ ダウンロードボタン追加 -->
-                <a class="download-btn" href="${beat.file}" download>
+                <!-- ★ スマホ対応ダウンロードボタン -->
+                <button class="download-btn" onclick="forceDownload('${beat.file}', '${beat.title}.wav')">
                     ⬇ Download
-                </a>
+                </button>
             </div>
         `;
 
