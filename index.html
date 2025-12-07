@@ -98,7 +98,7 @@
 
 <script>
     // ================================
-    // ★ スマホ対応 強制ダウンロード関数
+    // ★ スマホ対応 強制ダウンロード関数（MP3用）
     // ================================
     function forceDownload(url, fileName) {
         fetch(url)
@@ -112,7 +112,7 @@
     }
 
     // ================================
-    // ★ あなたのビート一覧
+    // ★ あなたのビート一覧（MP3）
     // ================================
     const beats = [
         { title: "BoomBap Beat", file: "beats/2025-11-24_1.mp3" },
@@ -133,9 +133,10 @@
             <div style="display:flex; justify-content:center; gap:20px; margin-top:15px;">
                 <button class="play-btn" id="btn-${index}">▶ Play</button>
 
+                <!-- ★ MP3で保存するように修正 -->
                 <button 
                     class="download-btn"
-                    onclick="forceDownload('${beat.file}', '${beat.title}.wav')"
+                    onclick="forceDownload('${beat.file}', '${beat.title}.mp3')"
                 >
                     ⬇ Download
                 </button>
