@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Beat Collection</title>
+
+    <!-- Wavesurfer (波形ライブラリ) -->
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            background: #0d0d0d;
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+
+        header {
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #111, #1a1a1a);
+            border-bottom: 2px solid #333;
+        }
+
+        header h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00eaff, #ff00ea);
+            color: transparent;
+            background-clip: text;
+        }
+
+        #beat-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .beat-box {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 0 15px #000;
+            transition: 0.2s;
+        }
+
+        .beat-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px #111;
+        }
+
+        .title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #00eaff;
+        }
+
+        .wave {
+            width: 100%;
+            height: 120px;
+            margin-bottom: 15px;
+        }
+
+        .play-btn {
+            background: #00eaff;
+            color: black;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            font-size: 16px;
+        }
+
+        .play-btn:hover {
+            background: #00c0d1;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #ff00ea;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #cc00c2;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>My Beat Collection</h1>
+    <p>自作ビートのプレイリスト</p>
+</header>
+
+<div id="beat-container"></div>
+
+<script>
+    // ================================
+    // ★ あなたの WAV ビートに書き換え済み
+    // ================================
+    const beats = [
+        { title: "BoomBap Beat", file: "beats/2025-11-24_1.wav" },
+        { title: "Mellow Chill Beat", file: "beats/2025-12-3_2.wav" }
+    ];
+
+    const container = document.getElementById("beat-container");
+
+    beats.forEach((beat, index) => {
+        const div = document.createElement("div");
+        div.className = "beat-box";
+
+        div.innerHTML = `
+            <div class="title">${beat.title}</div>
+            <div id="wave-${index}" class="wave"></div>
+
+            <div style="display:flex; justify-content:center; gap:20px; margin-top:15px;">
+                <button class="play-btn" id="btn-${index}">▶ Play</button>
+
+                <!-- ★ ダウンロードボタン追加 -->
+                <a class="download-btn" href="${beat.file}" download>
+                    ⬇ Download
+                </a>
+            </div>
+        `;
+
+        container.appendChild(div);
+
+        // Wavesurfer インスタンス(WAVでもOK)
+        const wave = WaveSurfer.create({
+            container: `#wave-${index}`,
+            waveColor: "#555",
+            progressColor: "#00eaff",
+            height: 80,
+            responsive: true,
+            barWidth: 2,
+            barRadius: 2,
+        });
+
+        wave.load(beat.file);
+
+        const btn = document.getElementById(`btn-${index}`);
+        btn.onclick = () => {
+            if (wave.isPlaying()) {
+                wave.pause();
+                btn.textContent = "▶ Play";
+            } else {
+                wave.play();
+                btn.textContent = "⏸ Pause";
+            }
+        };
+
+        wave.on("finish", () => {
+            btn.textContent = "▶ Play";
+        });
+    });
+</script>
+
+
+</body>
+</html>
