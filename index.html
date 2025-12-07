@@ -108,6 +108,7 @@
 
 <!-- ★ ZIP ダウンロードだけ -->
 <div>
+    <p>※ダウンロードの際はPC（パソコン）でのダウンロードを推奨いたします。</p>
     <a class="zip-btn" href="beats/beat_pack.zip" download>
         📦 ZIPで全部まとめてダウンロード
     </a>
@@ -116,19 +117,6 @@
 <div id="beat-container"></div>
 
 <script>
-    // ================================
-    // ★ スマホ対応 強制ダウンロード（MP3）
-    // ================================
-    function forceDownload(url, fileName) {
-        fetch(url)
-            .then(res => res.blob())
-            .then(blob => {
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = fileName;
-                link.click();
-            });
-    }
 
     // ================================
     // ★ ビート一覧（MP3）
